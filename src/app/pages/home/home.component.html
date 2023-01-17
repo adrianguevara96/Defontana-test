@@ -1,0 +1,193 @@
+<div style="display: flex; height: 70%;">
+    <!-- pokemon's table -->
+    <div class="pokemon_table">
+        <!-- INPUT -->
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input 
+                    matInput
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Search columns" 
+                    #input
+                    [matAutocomplete]="auto"
+                    [formControl]="myControl"
+                >
+                <button
+                    *ngIf="myControl.value" 
+                    matSuffix 
+                    mat-icon-button 
+                    aria-label="Clear" 
+                    (click)="myControl.setValue(''); this.pokemons.filter = '';">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-autocomplete
+                    #auto="matAutocomplete"
+                >
+                    <mat-option
+                        *ngFor="let pokemonName of filteredOptions | async " 
+                        [value]="pokemonName"
+                        (click)="showInfoPokemon(pokemonName)"
+                    >
+                        {{ pokemonName }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        <div 
+            class="mat-elevation-z8" 
+            style="height: 80%; overflow: auto;"
+        >
+            <div 
+                style="width: 100%; display: flex; justify-content: center;" 
+                *ngIf="!pokemons"
+            >
+                <mat-spinner></mat-spinner>
+            </div>
+
+            <table
+                mat-table
+                [dataSource]="pokemons"
+                *ngIf="pokemons"
+            >
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+          
+                <tr 
+                    mat-header-row 
+                    *matHeaderRowDef="displayedColumns; sticky: true">
+                </tr>
+                <tr 
+                    mat-row 
+                    *matRowDef="let row; columns: displayedColumns;"
+                    (click)="rowClick(row)"
+                    >
+                </tr>
+            </table>
+          
+
+        </div>
+        <mat-paginator
+            [pageSizeOptions]="pageSizeOptions"
+            showFirstLastButtons
+            aria-label="Select page of pokemons"
+            (page)="getServerData($event)"
+            [length]="totalPages"
+        >
+        </mat-paginator>
+    </div>
+
+    <!-- pokemon stats -->
+    <div class="pokemon_stats mat-elevation-z8">
+        <label></label>
+        <div *ngIf="!pokemonFind" class="pokemon_div-stats">
+
+        </div>
+        <div 
+            *ngIf="pokemonFind"
+            style="width: 100%">
+            <mat-card-title>Pokemon Stats</mat-card-title>
+            <mat-card class="example-card">
+                <mat-card-header class="pokemon_stats-header">
+                    <!-- <div
+                        mat-card-avatar 
+                        class="example-header-image"
+                        [ngStyle]="{'background-image': 'url(' + pokemonFind.sprites.front_default + ')'}">
+                    </div> -->
+                    <mat-card-title>{{ pokemonFind.species.name }}</mat-card-title>
+                    <mat-card-subtitle>
+                        
+                        <span class="pokemon_name" *ngIf="pokemonFind && pokemonFind.species.name">
+                            N º : {{ pokemonFind.id }}
+                        </span>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="pokemon_stats-content">
+                  <p>
+                    Height: {{ pokemonFind.height }}
+                  </p>
+                  <p>
+                    Weight: {{ pokemonFind.weight }}
+                  </p>
+                  <mat-card class="pokemon_stats-content-1">
+                    <mat-card-title> Abilities </mat-card-title>
+                    <mat-card-content>
+                        <div *ngFor="let ability of pokemonFind.abilities">
+                            <span>
+                                {{ ability.ability.name }}
+                            </span>
+                        </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class="pokemon_stats-content-2">
+                    <mat-card-title> Stats </mat-card-title>
+                    <mat-card-content>
+                        <div *ngFor="let stat of pokemonFind.stats">
+                            <span>
+                                {{ stat.stat.name }}: {{ stat.base_stat }}
+                            </span>
+                        </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class="pokemon_stats-content-3">
+                    <div>
+                        <img src="{{pokemonFind.sprites.front_default}}" style="zoom: 1.5" alt="">
+                    </div>
+                  </mat-card>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>LIKE</button>
+                  <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+    </div>
+</div>
+<div class="resume">
+    <!-- pokemon resume -->
+    <div>
+        <div 
+            style="width: 100%; display: flex; justify-content: center;" 
+            *ngIf="!pokemons"
+        >
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <table
+            mat-table
+            [dataSource]="alphabet"
+            *ngIf="pokemons"
+        >
+            <!-- Letter Column -->
+            <ng-container matColumnDef="letter">
+                <th mat-header-cell *matHeaderCellDef> Letter </th>
+                <td mat-cell *matCellDef="let element"> {{element.letter}} </td>
+            </ng-container>
+
+            <!-- Count Column -->
+            <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef> Count </th>
+                <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+            </ng-container>
+    
+            <tr 
+                mat-header-row 
+                *matHeaderRowDef="displayedColumnsAlphabet; sticky: true">
+            </tr>
+            <tr 
+                mat-row 
+                *matRowDef="let row; columns: displayedColumnsAlphabet;"
+                >
+            </tr>
+        </table>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(27, 1fr)">
+        <div *ngFor="let alphabet of abc">
+            {{ alphabet.letter[0].toUpperCase() }} : {{ alphabet.count }}
+        </div>
+    </div>
+</div>
+
