@@ -2,40 +2,41 @@
     <!-- pokemon's table -->
     <div class="pokemon_table">
         <!-- INPUT -->
-            <mat-form-field>
-                <mat-label>Filter</mat-label>
-                <input 
-                    matInput
-                    type="text"
-                    (keyup)="applyFilter($event)"
-                    placeholder="Search columns" 
-                    #input
-                    [matAutocomplete]="auto"
-                    [formControl]="myControl"
+        <mat-form-field style="height: 80px">
+            <mat-label>Filter</mat-label>
+            <input 
+                matInput
+                type="text"
+                (keyup)="applyFilter($event)"
+                placeholder="Search columns" 
+                #input
+                [matAutocomplete]="auto"
+                [formControl]="myControl"
+            >
+            <button
+                *ngIf="myControl.value" 
+                matSuffix 
+                mat-icon-button 
+                aria-label="Clear" 
+                (click)="myControl.setValue(''); this.pokemons.filter = '';">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete
+                #auto="matAutocomplete"
+            >
+                <mat-option
+                    *ngFor="let pokemonName of filteredOptions | async " 
+                    [value]="pokemonName"
+                    (click)="showInfoPokemon(pokemonName)"
                 >
-                <button
-                    *ngIf="myControl.value" 
-                    matSuffix 
-                    mat-icon-button 
-                    aria-label="Clear" 
-                    (click)="myControl.setValue(''); this.pokemons.filter = '';">
-                    <mat-icon>close</mat-icon>
-                </button>
-                <mat-autocomplete
-                    #auto="matAutocomplete"
-                >
-                    <mat-option
-                        *ngFor="let pokemonName of filteredOptions | async " 
-                        [value]="pokemonName"
-                        (click)="showInfoPokemon(pokemonName)"
-                    >
-                        {{ pokemonName }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+                    {{ pokemonName }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <!-- TABLE -->
         <div 
             class="mat-elevation-z8" 
-            style="height: 80%; overflow: auto;"
+            style="height: calc(100% - 130px); overflow: auto;"
         >
             <div 
                 style="width: 100%; display: flex; justify-content: center;" 
@@ -48,6 +49,7 @@
                 mat-table
                 [dataSource]="pokemons"
                 *ngIf="pokemons"
+                fixedLayout="true"
             >
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
@@ -69,7 +71,10 @@
           
 
         </div>
+        <!-- PAGINATOR -->
         <mat-paginator
+            style="display: flex; justify-content: flex-end;height: 50px;align-items:center;"
+            class="mat-elevation-z8"
             [pageSizeOptions]="pageSizeOptions"
             showFirstLastButtons
             aria-label="Select page of pokemons"
@@ -83,7 +88,29 @@
     <div class="pokemon_stats mat-elevation-z8">
         <label></label>
         <div *ngIf="!pokemonFind" class="pokemon_div-stats">
+            <div class="pokemon_stats-circle-1">
+            </div>
+            <div class="pokemon_stats-circle-2">
+            </div>
+            <div class="pokemon_stats-circle-3">
+            </div>
+            <div class="pokemon_stats-circle-4">
+            </div>
+            <div class="pokemon_stats-box">
+            </div>
 
+            <div class="pokemon_stats-circle-5">
+            </div>
+            <div class="pokemon_stats-line-1">
+            </div>
+            <div class="pokemon_stats-line-2">
+            </div>
+            <!-- <div>
+                circulo gris
+            </div>
+            <div>
+                rectangulo verde
+            </div> -->
         </div>
         <div 
             *ngIf="pokemonFind"
@@ -148,42 +175,6 @@
 </div>
 <div class="resume">
     <!-- pokemon resume -->
-    <div>
-        <div 
-            style="width: 100%; display: flex; justify-content: center;" 
-            *ngIf="!pokemons"
-        >
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <table
-            mat-table
-            [dataSource]="alphabet"
-            *ngIf="pokemons"
-        >
-            <!-- Letter Column -->
-            <ng-container matColumnDef="letter">
-                <th mat-header-cell *matHeaderCellDef> Letter </th>
-                <td mat-cell *matCellDef="let element"> {{element.letter}} </td>
-            </ng-container>
-
-            <!-- Count Column -->
-            <ng-container matColumnDef="count">
-                <th mat-header-cell *matHeaderCellDef> Count </th>
-                <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-            </ng-container>
-    
-            <tr 
-                mat-header-row 
-                *matHeaderRowDef="displayedColumnsAlphabet; sticky: true">
-            </tr>
-            <tr 
-                mat-row 
-                *matRowDef="let row; columns: displayedColumnsAlphabet;"
-                >
-            </tr>
-        </table>
-    </div>
     <div style="display:grid; grid-template-columns: repeat(27, 1fr)">
         <div *ngFor="let alphabet of abc">
             {{ alphabet.letter[0].toUpperCase() }} : {{ alphabet.count }}
