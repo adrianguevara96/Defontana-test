@@ -218,6 +218,7 @@ export class HomeComponent {
 
   async showInfoPokemon(pokemonName:string){
     this.pokemons.filter = pokemonName.toLowerCase();
+    this.loadAlphabeth(this.abc, this.pokemonsArray);
   }
 
   applyFilter(event: any) {
@@ -233,6 +234,10 @@ export class HomeComponent {
 
   loadAlphabeth(abcArray:any[], pokemonArray:any[]){
 
+    abcArray.map(pokemon => {
+      pokemon.count = 0;
+    });
+
     for(let i = 0; i < abcArray.length; i++) {
       for(let j = 0; j < pokemonArray.length; j++) {
         if(pokemonArray[j].name[0].includes(this.abc[i].letter)){
@@ -241,7 +246,7 @@ export class HomeComponent {
       }
     }
 
-    this.alphabet = new MatTableDataSource<any>(this.abc);
+    // this.alphabet = new MatTableDataSource<any>(this.abc);
   }
 
 }

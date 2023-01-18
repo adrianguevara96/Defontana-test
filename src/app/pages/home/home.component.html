@@ -2,13 +2,15 @@
     <!-- pokemon's table -->
     <div class="pokemon_table">
         <!-- INPUT -->
-        <mat-form-field style="height: 80px">
-            <mat-label>Filter</mat-label>
+        <mat-form-field 
+            class="pokemon_table-input"
+        >
+            <mat-label>Search your pokemon...</mat-label>
             <input 
                 matInput
                 type="text"
                 (keyup)="applyFilter($event)"
-                placeholder="Search columns" 
+                placeholder="Pokemon name..." 
                 #input
                 [matAutocomplete]="auto"
                 [formControl]="myControl"
@@ -61,6 +63,7 @@
                     *matHeaderRowDef="displayedColumns; sticky: true">
                 </tr>
                 <tr 
+                    style="cursor: pointer"
                     mat-row 
                     *matRowDef="let row; columns: displayedColumns;"
                     (click)="rowClick(row)"
@@ -86,23 +89,6 @@
     <div class="pokemon_stats mat-elevation-z8">
         <label></label>
         <div *ngIf="!pokemonFind" class="pokemon_div-stats">
-            <!-- <div class="pokemon_stats-circle-1">
-            </div>
-            <div class="pokemon_stats-circle-2">
-            </div>
-            <div class="pokemon_stats-circle-3">
-            </div>
-            <div class="pokemon_stats-circle-4">
-            </div>
-            <div class="pokemon_stats-box">
-            </div>
-
-            <div class="pokemon_stats-circle-5">
-            </div>
-            <div class="pokemon_stats-line-1">
-            </div>
-            <div class="pokemon_stats-line-2">
-            </div> -->
             <img src="assets/image/whos_that_p.jpg" alt="" class="pokemon_div-stats-img">
         </div>
         <div 
@@ -126,39 +112,41 @@
                     </mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content class="pokemon_stats-content">
-                  <mat-card class="pokemon_stats-content-1">
-                    <mat-card-title
-                        class="pokemon_stats-content-title"
+                    <mat-card class="pokemon_stats-content-1">
+                        <mat-card-title
+                            class="pokemon_stats-content-title"
+                        >
+                            Abilities
+                        </mat-card-title>
+                        <mat-card-content>
+                            <div *ngFor="let ability of pokemonFind.abilities">
+                                <span>
+                                    {{ ability.ability.name }}
+                                </span>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="pokemon_stats-content-2">
+                        <mat-card-title
+                            class="pokemon_stats-content-title"
+                        >
+                            Stats
+                        </mat-card-title>
+                        <mat-card-content>
+                            <div *ngFor="let stat of pokemonFind.stats">
+                                <span>
+                                    {{ stat.stat.name }}: {{ stat.base_stat }}
+                                </span>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card
+                        class="pokemon_stats-content-3"
                     >
-                        Abilities
-                    </mat-card-title>
-                    <mat-card-content>
-                        <div *ngFor="let ability of pokemonFind.abilities">
-                            <span>
-                                {{ ability.ability.name }}
-                            </span>
+                        <div>
+                            <img src="{{pokemonFind.sprites.front_default}}" style="zoom: 1.5" alt="">
                         </div>
-                    </mat-card-content>
-                  </mat-card>
-                  <mat-card class="pokemon_stats-content-2">
-                    <mat-card-title
-                        class="pokemon_stats-content-title"
-                    >
-                        Stats
-                    </mat-card-title>
-                    <mat-card-content>
-                        <div *ngFor="let stat of pokemonFind.stats">
-                            <span>
-                                {{ stat.stat.name }}: {{ stat.base_stat }}
-                            </span>
-                        </div>
-                    </mat-card-content>
-                  </mat-card>
-                  <mat-card class="pokemon_stats-content-3">
-                    <div>
-                        <img src="{{pokemonFind.sprites.front_default}}" style="zoom: 1.5" alt="">
-                    </div>
-                  </mat-card>
+                    </mat-card>
                 </mat-card-content>
                 <mat-card-actions>
                   <button mat-button class="pokemon_stats-action-1"></button>
@@ -171,11 +159,36 @@
     </div>
 </div>
 <div class="resume">
+    <h4 class="resume-container-title">
+        Pokemon Summary Count
+    </h4>
     <!-- pokemon resume -->
-    <div style="display:grid; grid-template-columns: repeat(27, 1fr)">
-        <div *ngFor="let alphabet of abc">
-            {{ alphabet.letter[0].toUpperCase() }} : {{ alphabet.count }}
+    <div class="resume-container">
+        <div
+            class="alphabet"
+            *ngFor="let alphabet of abc"
+        >
+            <div
+                class="alphabet-letter"
+            >
+                {{ alphabet.letter[0].toUpperCase() }}
+            </div>
+            <div
+                class="alphabet-count"
+            >
+                {{ alphabet.count }}
+            </div> 
         </div>
     </div>
 </div>
+<!-- <div class="footer">
+    <div class="footer-item-one">
+    </div>
+    <div class="footer-item-two">
+    </div>
+    <div class="footer-item-three">
+    </div>
+</div> -->
+
+
 
