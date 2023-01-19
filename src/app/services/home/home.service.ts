@@ -17,7 +17,7 @@ export class HomeService {
       let response = await axios.get(environment.apiUrl + `pokemon?offset=${offset}&limit=${limit}`, {
         headers: {},
       });
-      console.log("response getPokemonList: ", response.data)
+      // console.log("response getPokemonList: ", response.data)
 
       return response.data;
     } catch (err) {
@@ -33,7 +33,7 @@ export class HomeService {
         let response = await axios.get(environment.apiUrl + `pokemon/${pokemonName}`, {
           headers: {},
         });
-        console.log("response getPokemon: ", response.data)
+        // console.log("response getPokemon: ", response.data)
   
         return response.data;
       } catch (err) {

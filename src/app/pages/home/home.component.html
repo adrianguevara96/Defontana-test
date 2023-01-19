@@ -40,7 +40,7 @@
             class="mat-elevation-z8 pokemon_table-container" 
         >
             <div 
-                style="width: 100%; display: flex; justify-content: center;" 
+                class="pokemon_table-spinner" 
                 *ngIf="!pokemons"
             >
                 <mat-spinner></mat-spinner>
@@ -81,6 +81,7 @@
             aria-label="Select page of pokemons"
             (page)="getServerData($event)"
             [length]="totalPages"
+            *ngIf="pokemons"
         >
         </mat-paginator>
     </div>

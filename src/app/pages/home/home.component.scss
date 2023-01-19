@@ -304,6 +304,14 @@ table {
     border: 3px solid white;
 }
 
+.pokemon_table-spinner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
 
 
 @media (max-width: 1400px) {

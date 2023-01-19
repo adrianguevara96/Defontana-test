@@ -150,8 +150,6 @@ export class HomeComponent {
     },
   ];
 
-  alphabet:any;
-
   constructor(
     private homeService: HomeService 
   ){}
@@ -167,18 +165,8 @@ export class HomeComponent {
       this.pokemons.paginator = this.paginator;
       this.totalPages = response.count;
 
-      //count alphabet
-      // for(let i = 0; i < this.abc.length; i++) {
-      //   for(let j = 0; j < this.pokemonsArray.length; j++) {
-      //     if(this.pokemonsArray[j].name[0].includes(this.abc[i].letter)){
-      //       this.abc[i].count++;
-      //     }
-      //   }
-      // }
       this.loadAlphabeth(this.abc, this.pokemonsArray);
-      console.log(this.abc)
 
-      // console.log(this.pokemonsArray)
     });
 
     this.filteredOptions = this.myControl.valueChanges
@@ -206,13 +194,10 @@ export class HomeComponent {
   }
 
   async rowClick(row: any){
-    // console.log("click row: ", row);
     this.pokemonSelected = this.pokemonsArray.filter( pokemon => pokemon.name === row.name);
-    // console.log("pokemonSelected: ", this.pokemonSelected);
+
     if(this.pokemonSelected){
       this.pokemonFind = await this.homeService.getPokemon(this.pokemonSelected[0].name);
-
-      // console.log("pokemonFind: ", this.pokemonFind);
     }
   }
 
@@ -222,14 +207,12 @@ export class HomeComponent {
   }
 
   applyFilter(event: any) {
-    // console.log("event: ", event)
+
     if(event.key === 'Backspace'){
       const filterValue = (event.target as HTMLInputElement).value;
       this.pokemons.filter = filterValue.trim().toLowerCase();
     }
 
-
-    // console.log("event: ", event, filterValue, this.pokemons.filter = filterValue)
   }
 
   loadAlphabeth(abcArray:any[], pokemonArray:any[]){
@@ -245,8 +228,6 @@ export class HomeComponent {
         }
       }
     }
-
-    // this.alphabet = new MatTableDataSource<any>(this.abc);
   }
 
 }
